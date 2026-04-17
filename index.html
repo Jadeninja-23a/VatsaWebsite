@@ -359,12 +359,21 @@
       justify-content: space-between;
       gap: 12px;
       transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
+      touch-action: manipulation;
     }
 
     .method-card:hover, .order-card:hover {
       transform: translateY(-3px);
       border-color: rgba(22, 131, 255, 0.28);
       box-shadow: 0 12px 22px rgba(15, 124, 255, 0.12);
+    }
+
+    .method-card {
+      cursor: grab;
+    }
+
+    .order-card {
+      cursor: pointer;
     }
 
     .method-card.dragging, .order-card.dragging {
@@ -388,7 +397,7 @@
     }
 
     .drop-zone.empty::after {
-      content: "Drag methods here in the correct order.";
+      content: "Drag methods here in the correct order, or tap a method on phone.";
       color: var(--ink-soft);
       display: block;
       margin-top: 20px;
@@ -857,7 +866,7 @@
       <h3>${c.title}</h3>
       <p style="margin-top:10px">${c.story}</p>
       <p style="margin-top:8px"><strong>Available methods:</strong> ${c.methods.join(', ')}</p>
-      <p style="margin-top:4px"><em>Tip: Order matters — drag the cards in the right sequence.</em></p>`;
+      <p style="margin-top:4px"><em>Tip: Order matters — drag the cards in the right sequence, or tap them on phone.</em></p>`;
 
     methodChoices.innerHTML = '';
     c.methods.forEach(m => {
@@ -868,8 +877,15 @@
       card.dataset.method = m;
       card.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', m); card.classList.add('dragging'); });
       card.addEventListener('dragend', () => card.classList.remove('dragging'));
+      card.addEventListener('click', () => addMethodToOrder(m));
       methodChoices.appendChild(card);
     });
+  }
+
+  function addMethodToOrder(method) {
+    if (!method || activeDrops.includes(method)) return;
+    activeDrops.push(method);
+    renderDropCards();
   }
 
   function renderDropCards() {
@@ -1020,9 +1036,7 @@
   dropZone.addEventListener('drop', e => {
     e.preventDefault();
     const m = e.dataTransfer.getData('text/plain');
-    if (!m || activeDrops.includes(m)) return;
-    activeDrops.push(m);
-    renderDropCards();
+    addMethodToOrder(m);
   });
 </script>
 </body>
