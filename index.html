@@ -765,17 +765,28 @@
     { title:'Activated Carbon',  description:'Activated carbon absorbs chemicals, odors, and colors from water. It is essential for removing contaminants that filtration alone cannot capture.', example:'Use activated carbon when water tastes or smells bad even after filtering.' },
     { title:'Boiling',           description:'Heat water until it boils to kill bacteria, viruses, and most germs. Boiling is a powerful way to make water safe when it is biologically contaminated.', example:'Use boiling when the water may contain disease-causing microorganisms.' },
     { title:'UV Treatment',      description:'Light kills germs without changing the taste or smell of water. UV treatment is faster than boiling and works well for clear water that may still contain microbes.', example:'Use UV when you want a quick way to disinfect water after it has already been filtered.' },
-  ];
+    {
+      title: 'Chlorination',
+      description: 'Chlorination involves adding a small amount of chlorine — usually through chlorine tablets — to water. The chlorine dissolves and kills germs present in the water. It is a chemical disinfection method, unlike UV which is physical. Typical dosage is 1 mg/L and it requires 15–20 minutes of contact time to be effective.',
+      example: 'Use chlorination when water may contain disease-causing bacteria after physical treatment steps. It is especially powerful combined with UV as a "double-kill" strategy against heavy biological contamination.',
+      tip: 'Chlorination does NOT remove physical impurities — it only kills germs. Always filter first. Activated carbon can remove excess chlorine afterward if needed.'
+    },
+    {
+      title: 'Coagulation & Flocculation',
+      description: 'Coagulation uses a chemical like alum (aluminum sulfate) to neutralize the electrical charges on fine suspended particles. These particles then clump together in a process called flocculation — slow mixing that helps clusters grow into large "flocs" that can be filtered out. Takes 1–3 minutes of rapid mixing then 15–20 minutes of slow mixing. Use only a small pinch of alum to avoid making water acidic.',
+      example: 'Use coagulation for water with fine cement dust, ultra-fine silt, or dissolved/partially dissolved salts (like CuSO₄). These tiny particles are electrically charged and repel each other, passing straight through a filter without coagulation.',
+      tip: 'Always place coagulation early — before filtration — so the fine particles clump into sizes the filter can actually catch. Without this step, fine particles sail through sand and clog the expensive carbon block instead.'
+    },
+];
+
+  const allMethods = lessons.map(lesson => lesson.title);
 
   /*
     Scoring model — each challenge defines:
-      answer    : the ideal ordered sequence
-      methods   : what cards are available
-      scores    : per-method points awarded when the method is placed
-                  in the ideal position vs wrong position vs absent
-      maxScore  : total achievable (sum of correct placements)
-      penalty   : points subtracted per wrong-position step
-      feedback  : explanation text
+      answer      : the ideal ordered sequence
+      stepWeights : importance of each required method
+      bonus       : bonus for a perfect sequence
+      feedback    : explanation text
   */
   const challenges = [
     {
@@ -814,6 +825,69 @@
       stepWeights:{ 'Filtration':50, 'Activated Carbon':50 },
       bonus: 0,
       feedback:'Filter first to remove debris, then activated carbon to absorb roadside chemicals. Boiling cannot remove chemical contamination.',
+    },
+    {
+      title: 'The Monsoon Mud Puddle',
+      story: 'A massive monsoon has hit. The local stream is a swirling brown mess of soil, twigs, and stones. Provide clear water for the village.',
+      methods: ['Coagulation & Flocculation','Filtration','Activated Carbon','Chlorination','UV Treatment','Aeration'],
+      answer: ['Coagulation & Flocculation','Filtration','Activated Carbon','Chlorination','UV Treatment','Aeration'],
+      stepWeights: { 'Coagulation & Flocculation':25, 'Filtration':25, 'Activated Carbon':20, 'Chlorination':10, 'UV Treatment':10, 'Aeration':10 },
+      bonus: 10,
+      feedback: 'Mud has ultra-fine silt that behaves like a liquid — coagulation clumps it so the filter can catch it. Then filter, use carbon to remove earthy taste, disinfect with chlorination and UV, and aerate last to add freshness.',
+    },
+    {
+      title: 'The Construction Runoff',
+      story: 'Fine white cement dust from a nearby factory has turned the reservoir cloudy. The dust is so fine it won\'t settle even after hours of waiting.',
+      methods: ['Coagulation & Flocculation','Filtration','Activated Carbon','Chlorination','UV Treatment','Aeration'],
+      answer: ['Coagulation & Flocculation','Filtration','Activated Carbon','Chlorination','UV Treatment','Aeration'],
+      stepWeights: { 'Coagulation & Flocculation':30, 'Filtration':25, 'Activated Carbon':20, 'Chlorination':10, 'UV Treatment':10, 'Aeration':5 },
+      bonus: 10,
+      feedback: 'Cement dust is electrically charged, so it stays suspended and floats through filters. Coagulation neutralizes the charge first so the particles clump and the filter can catch them. Skipping coagulation means the dust shields bacteria from UV light.',
+    },
+    {
+      title: 'The Factory Chemical Leak',
+      story: 'A chemical tanker leaked organic solvents into the water intake. The water looks perfectly clear, but it smells dangerously pungent.',
+      methods: ['Coagulation & Flocculation','Filtration','Activated Carbon','UV Treatment','Chlorination','Aeration'],
+      answer: ['Filtration','Activated Carbon','UV Treatment','Aeration'],
+      stepWeights: { 'Filtration':20, 'Activated Carbon':40, 'UV Treatment':20, 'Aeration':20 },
+      bonus: 10,
+      feedback: 'Solvents are dissolved — filtration alone cannot remove them. Activated carbon acts as a molecular sponge to trap odor molecules. Aeration at the end is critical because solvents are volatile; air bubbles physically lift the smell out of the water.',
+    },
+    {
+      title: 'The Unexplained Blue River',
+      story: 'A textile mill has dumped dye into the river. The water is a bright, vibrant blue — clear, but completely colored.',
+      methods: ['Coagulation & Flocculation','Filtration','Activated Carbon','UV Treatment','Chlorination','Aeration'],
+      answer: ['Coagulation & Flocculation','Filtration','Activated Carbon','UV Treatment','Aeration'],
+      stepWeights: { 'Coagulation & Flocculation':20, 'Filtration':20, 'Activated Carbon':35, 'UV Treatment':15, 'Aeration':10 },
+      bonus: 10,
+      feedback: 'Dye is a "light-thief." If UV is used first, the blue dye absorbs all the light and microbes survive. Coagulation helps bind dye molecules, then carbon strips the color. Only once the water is clear can UV light reach all pathogens.',
+    },
+    {
+      title: 'The Jungle Survival Stream',
+      story: 'You found a clear stream in the wild. It looks clean, but a UV torch reveals it is glowing — a sign of invisible, DNA-altering pathogens.',
+      methods: ['Coagulation & Flocculation','Filtration','Activated Carbon','Chlorination','UV Treatment','Aeration'],
+      answer: ['Coagulation & Flocculation','Filtration','Activated Carbon','UV Treatment','Chlorination','Aeration'],
+      stepWeights: { 'Coagulation & Flocculation':15, 'Filtration':20, 'Activated Carbon':20, 'UV Treatment':25, 'Chlorination':10, 'Aeration':10 },
+      bonus: 10,
+      feedback: 'Microbes hitchhike on floating organic matter. Filtration removes their transport vehicles. UV and chlorination together form a double-kill strategy. UV works at 100% efficiency only after the water is made optically clear by the earlier steps.',
+    },
+    {
+      title: 'The Urban Gutter Soup',
+      story: 'A total infrastructure collapse. Mud, trash, and industrial chemicals are all in one bucket. It is the ultimate purification test.',
+      methods: ['Coagulation & Flocculation','Filtration','Activated Carbon','Chlorination','UV Treatment','Aeration'],
+      answer: ['Coagulation & Flocculation','Filtration','Activated Carbon','Chlorination','UV Treatment','Aeration'],
+      stepWeights: { 'Coagulation & Flocculation':20, 'Filtration':20, 'Activated Carbon':20, 'Chlorination':15, 'UV Treatment':15, 'Aeration':10 },
+      bonus: 15,
+      feedback: 'System longevity is key: use cheapest blocks first to protect expensive ones. Gravel and sand remove macro-trash and mud to save the carbon block; carbon strips dye and odor so the UV can work without interference. Full sequence, in order, is critical.',
+    },
+    {
+      title: 'The Mars Colony Recycler',
+      story: 'On Mars, every drop counts. Recycle water contaminated with toxic Red Mars Dust and biological "sweat" gases.',
+      methods: ['Coagulation & Flocculation','Filtration','Activated Carbon','Chlorination','UV Treatment','Aeration'],
+      answer: ['Coagulation & Flocculation','Filtration','Activated Carbon','UV Treatment','Chlorination','Aeration'],
+      stepWeights: { 'Coagulation & Flocculation':25, 'Filtration':20, 'Activated Carbon':20, 'UV Treatment':15, 'Chlorination':10, 'Aeration':10 },
+      bonus: 15,
+      feedback: 'Martian dust is ultra-fine and abrasive — it would shred carbon pores if not clumped and filtered first. Aeration at the end is the soul of the recycler: it adds oxygen back into "dead" water, making recycled water taste like Earth-standard fresh water.',
     },
   ];
 
@@ -865,11 +939,11 @@
     challengeCard.innerHTML = `
       <h3>${c.title}</h3>
       <p style="margin-top:10px">${c.story}</p>
-      <p style="margin-top:8px"><strong>Available methods:</strong> ${c.methods.join(', ')}</p>
+      <p style="margin-top:8px"><strong>All methods available:</strong> ${allMethods.join(', ')}</p>
       <p style="margin-top:4px"><em>Tip: Order matters — drag the cards in the right sequence, or tap them on phone.</em></p>`;
 
     methodChoices.innerHTML = '';
-    c.methods.forEach(m => {
+    allMethods.forEach(m => {
       const card = document.createElement('div');
       card.className = 'method-card animated';
       card.draggable = true;
@@ -904,47 +978,41 @@
   /* ── Purity Score Calculation ── */
   function calcPurityScore(chosen, challenge) {
     const { answer, stepWeights, bonus } = challenge;
+    const extraStepPenalty = 6;
 
-    // Points earned for methods that are in the correct position
+    // Reward required methods heavily, even if order is not perfect yet.
     let earned = 0;
     let maxPossible = 0;
     const breakdown = [];
 
-    // Only the answer steps can earn weight
     answer.forEach((step, idealIdx) => {
       const weight = stepWeights[step] || 0;
       maxPossible += weight;
 
       const chosenIdx = chosen.indexOf(step);
       if (chosenIdx === -1) {
-        // Missing entirely
         breakdown.push({ label: step, chip:'miss', note:'Missing' });
       } else if (chosenIdx === idealIdx) {
-        // Perfect position
         earned += weight;
         breakdown.push({ label: step, chip:'good', note:'Correct position' });
       } else {
-        // Present but wrong order — partial credit
-        const partial = Math.round(weight * 0.45);
+        const partial = Math.round(weight * 0.7);
         earned += partial;
-        breakdown.push({ label: step, chip:'part', note:`Wrong position (+${partial}pts)` });
+        breakdown.push({ label: step, chip:'part', note:`Used, wrong order (+${partial}pts)` });
       }
     });
 
-    // Penalise extra steps not in the ideal answer
     const extraSteps = chosen.filter(s => !answer.includes(s));
-    const penalty = extraSteps.length * 8;
+    const penalty = extraSteps.length * extraStepPenalty;
     earned = Math.max(0, earned - penalty);
 
-    // Bonus for perfect sequence
     const isPerfect = chosen.length === answer.length && answer.every((s,i) => chosen[i] === s);
     if (isPerfect && bonus) earned = Math.min(100, earned + bonus);
 
-    // Normalise to 0–100
     const raw = maxPossible > 0 ? (earned / maxPossible) * 100 : 0;
     const score = Math.min(100, Math.max(0, Math.round(raw)));
 
-    return { score, breakdown, extraSteps, isPerfect };
+    return { score, breakdown, extraSteps, isPerfect, extraStepPenalty };
   }
 
   function gradeInfo(score) {
@@ -962,7 +1030,7 @@
     }
 
     const c = challenges[currentChallenge];
-    const { score, breakdown, extraSteps } = calcPurityScore(activeDrops, c);
+    const { score, breakdown, extraSteps, extraStepPenalty } = calcPurityScore(activeDrops, c);
     const grade = gradeInfo(score);
 
     const breakdownHTML = breakdown.map(b => `
@@ -972,7 +1040,7 @@
       </div>`).join('');
 
     const extraHTML = extraSteps.length
-      ? `<div class="breakdown-row"><span class="breakdown-label" style="color:#c0392b">Extra step${extraSteps.length>1?'s':''}: ${extraSteps.join(', ')}</span><span class="breakdown-chip chip-miss">−${extraSteps.length*8} pts</span></div>`
+      ? `<div class="breakdown-row"><span class="breakdown-label" style="color:#c0392b">Extra step${extraSteps.length>1?'s':''}: ${extraSteps.join(', ')}</span><span class="breakdown-chip chip-miss">−${extraSteps.length*extraStepPenalty} pts</span></div>`
       : '';
 
     resultPanel.innerHTML = `
