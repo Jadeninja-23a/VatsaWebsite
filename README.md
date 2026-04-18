@@ -1,17 +1,33 @@
 # Pure Path: Water Purification Game
 
-A simple browser-based educational game that teaches 8th-grade students about water purification methods.
+This folder is the deployable website root.
 
-## What it includes
+## What is inside
 
-- Kit-inspired hero design with purifier modules and branding
-- Interactive lesson mode for purification methods
-- Scenario challenge mode with step ordering
-- Drag-and-drop order building
-- Feedback for correct and incorrect solutions
+- `index.html` is the main Vatsa homepage.
+- `scenario-challenges/` contains the built React simulator from `../de250-main`.
+- `assets/` contains the shared images used by the homepage.
 
-## How to run
+## Local preview
 
-1. Open `index.html` in a web browser.
-2. Use the buttons to switch between lessons and challenge scenarios.
-3. Drag methods into the order area and submit your answer.
+1. Open `index.html` in a browser for a quick static preview.
+2. Click `Scenario Challenges` to open the React simulator subpage.
+
+## Rebuild the React simulator
+
+If you change files inside `de250-main`, rebuild the hosted subpage with:
+
+```bash
+cd de250-main
+npm ci
+npm run build:vatsa
+```
+
+That command writes the deployable simulator files into `VatsaWebsite/scenario-challenges/`.
+
+## Netlify
+
+- Publish directory: `VatsaWebsite`
+- Build command:
+  - Optional if the built `scenario-challenges/` files are already committed: leave blank
+  - Recommended if Netlify should rebuild the React simulator on each deploy: `cd de250-main && npm ci && npm run build:vatsa`

@@ -666,7 +666,7 @@
       </div>
       <div class="card start-card">
         <h2>Choose a mode</h2>
-        <p>Start with the method lessons, then apply your knowledge in scenario challenges by building the right purifier order.</p>
+        <p>Start with the method lessons, then open the interactive scenario challenges lab to apply your knowledge with the improved simulator view.</p>
         <div class="button-grid">
           <button id="startLessons" class="primary-button">Method Lessons</button>
           <button id="startChallenges" class="secondary-button">Scenario Challenges</button>
@@ -735,7 +735,7 @@
       <h3>How to play</h3>
       <ul>
         <li>Select <strong>Method Lessons</strong> to learn about purification steps.</li>
-        <li>Choose <strong>Scenario Challenges</strong> to solve a problem using the correct treatment order.</li>
+        <li>Choose <strong>Scenario Challenges</strong> to open the interactive simulator and solve a problem using the correct treatment order.</li>
         <li>Drag the method cards into the order area and submit to check your solution.</li>
         <li>Your <strong>Purity Score</strong> reflects how clean the output water would be based on your chosen sequence.</li>
       </ul>
@@ -1088,7 +1088,9 @@
 
   /* ── Event binding ── */
   document.getElementById('startLessons').addEventListener('click', () => { currentLesson=0; renderLesson(0); switchScreen(lessonScreen); });
-  document.getElementById('startChallenges').addEventListener('click', () => { currentChallenge=0; renderChallenge(0); switchScreen(challengeScreen); });
+  document.getElementById('startChallenges').addEventListener('click', () => {
+    window.location.href = './scenario-challenges/';
+  });
   document.getElementById('backToMenuFromLesson').addEventListener('click', () => switchScreen(startScreen));
   document.getElementById('backToMenuFromChallenge').addEventListener('click', () => switchScreen(startScreen));
   document.getElementById('prevLesson').addEventListener('click', () => { if(currentLesson>0){ currentLesson--; renderLesson(currentLesson); } });
