@@ -10,8 +10,17 @@ This folder is the deployable website root.
 
 ## Local preview
 
-1. Open `index.html` in a browser for a quick static preview.
-2. Click `Scenario Challenges` to open the React simulator subpage.
+1. Start a local web server from this folder:
+
+```bash
+python3 -m http.server 4173
+```
+
+2. Open `http://localhost:4173/`
+3. Click `Scenario Challenges` to open the React simulator subpage.
+
+Do not open `scenario-challenges/index.html` directly with `file://`.
+The React bundle needs to be served over HTTP, which Netlify does automatically.
 
 ## Rebuild the React simulator
 
@@ -31,3 +40,6 @@ That command writes the deployable simulator files into `VatsaWebsite/scenario-c
 - Build command:
   - Optional if the built `scenario-challenges/` files are already committed: leave blank
   - Recommended if Netlify should rebuild the React simulator on each deploy: `cd de250-main && npm ci && npm run build:vatsa`
+- If your GitHub repo root is already the contents of `VatsaWebsite`, Netlify can use:
+  - Publish directory: `.`
+  - Build command: leave blank, or `cd ../de250-main && npm ci && npm run build:vatsa` only if that folder is also present in the repo
